@@ -14,6 +14,7 @@ package com.mars.leetCode.editor.cn;
 // 
 // Related Topics 数组 哈希表
 
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -21,8 +22,8 @@ public class TwoSum {
     public static void main(String[] args) {
         Solution solution = new TwoSum().new Solution();
         int[] nums = new int[]{2, 7, 11, 15};
-        int target = 9;
-        solution.twoSum(nums, target);
+        int target = 26;
+        System.out.println(Arrays.toString(solution.twoSum(nums, target)));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -32,9 +33,11 @@ public class TwoSum {
             ConcurrentHashMap<Integer, Integer> hashMap = new ConcurrentHashMap<>();
             AtomicInteger integer = new AtomicInteger();
             for (int i = 0; i < nums.length; i++) {
-                if (hashMap.contains(target - nums[i])) {
+                if (hashMap.containsKey(target - nums[i])) {
+                    index[0] = hashMap.get(target-nums[i]);
+                    index[1] = i;
                 }
-                hashMap.put( nums[i],integer.incrementAndGet());
+                hashMap.put( nums[i],integer.getAndIncrement());
             }
             return index;
         }
