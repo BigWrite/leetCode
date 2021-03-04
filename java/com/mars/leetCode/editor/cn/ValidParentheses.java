@@ -59,39 +59,86 @@ import org.junit.platform.commons.util.StringUtils;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
-public class ValidParentheses{
-    public static void main(String[] args){
+public class ValidParentheses {
+    public static void main(String[] args) {
 
         Solution solution = new ValidParentheses().new Solution();
-        solution.isValid("{}{}[][]");
+        System.out.println(solution.isValid("{{"));
+        System.out.println(solution.isValid2("}{{{}{[]}}[][]"));
     }
-//leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public boolean isValid(String s) {
-        HashMap<Character, Character> dir = new HashMap<>();
-        dir.put('{','}');
-        dir.put('(',')');
-        dir.put('[',']');
-        boolean flag = true;
-        if (StringUtils.isBlank(s)||s.length()%2!=0) {
-            System.out.println("输入字符串不能为空，且长度应为2的倍数");
-            return !flag;
-        }
-        Deque<Character> stack = new LinkedList<>();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (!dir.containsKey(c)) {
-                System.out.println("包含非法字符或字符不匹配");
-                return !flag;
+
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
+        public boolean isValid(String s) {
+            HashMap<Character, Character> dir = new HashMap<>();
+            dir.put('{', '}');
+            dir.put('(', ')');
+            dir.put('[', ']');
+            if (s.length() % 2 == 1) {
+                return false;
             }
-            stack.push(c);
-            i++;
+            Deque<Character> stack = new LinkedList<>();
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                if (dir.containsKey(c)) {
+                    stack.push(c);
+                } else {
+                    if (stack.isEmpty() || !dir.get(stack.peek()).equals(c)) {
+                        return false;
+                    } else {
+                        stack.poll();
+                    }
+                }
+            }
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                if (dir.containsKey(c)) {
+                    stack.push(c);
+                }
+                if (stack.isEmpty()) {
+                    System.out.println(c + "未找到对应开口");
+                    return false;
+                }
+                if (dir.containsValue(c)) {
+                    if (dir.get(stack.peek()).equals(c)) {
+                        stack.poll();
+                    } else {
+                        System.out.println(stack.peek() + "不匹配" + c);
+                        return false;
+                    }
+                }
+            }
+            return stack.isEmpty();
         }
-        return flag;
+
+        public boolean isValid2(String s) {
+            int n = s.length();
+            if (n % 2 == 1) {
+                return false;
+            }
+
+            Map<Character, Character> pairs = new HashMap<Character, Character>() {{
+                put(')', '(');
+                put(']', '[');
+                put('}', '{');
+            }};
+            Deque<Character> stack = new LinkedList<Character>();
+            for (int i = 0; i < n; i++) {
+                char ch = s.charAt(i);
+                if (pairs.containsKey(ch)) {
+                    if (stack.isEmpty() || stack.peek() != pairs.get(ch)) {
+                        return false;
+                    }
+                    stack.pop();
+                } else {
+                    stack.push(ch);
+                }
+            }
+            return stack.isEmpty();
+        }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
