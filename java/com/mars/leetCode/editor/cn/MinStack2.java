@@ -42,33 +42,13 @@ package com.mars.leetCode.editor.cn;
 public class MinStack2 {
     public static void main(String[] args) {
         Solution solution = new MinStack2().new Solution();
-        solution.push(395);
+        solution.push(-2);
+        solution.push(0);
+        solution.push(-3);
         System.out.println(solution.getMin());
+        solution.pop();
         System.out.println(solution.top());
         System.out.println(solution.getMin());
-        solution.push(276);
-        solution.push(29);
-        System.out.println(solution.getMin());
-        solution.push(-482);
-        System.out.println(solution.getMin());
-        solution.pop();
-        solution.push(-108);
-        solution.push(-251);
-        System.out.println(solution.getMin());
-        solution.push(-439);
-        System.out.println(solution.top());
-        solution.push(370);
-        solution.pop();
-        solution.pop();
-        System.out.println(solution.getMin());
-        solution.pop();
-        System.out.println(solution.getMin());
-        System.out.println(solution.getMin());
-        solution.pop();
-        System.out.println(solution.getMin());
-        solution.push(-158);
-        solution.push(82);
-        solution.pop();
 
     }
 //leetcode submit region begin(Prohibit modification and deletion)
@@ -107,13 +87,12 @@ public class MinStack2 {
                 min = new Node<>(null, null, x);
             } else {
                 Node<Integer> node = new Node<>(null, first, x);
-                node.next = first;
                 first.pre = node;
                 first = node;
 
                 Node<Integer> min ;
-                if (first.item > x) {
-                    min = new Node<>(null, this.min, first.item);
+                if (this.min.item > x) {
+                    min = new Node<>(null, this.min, x);
                     this.min.pre = min;
                     this.min = min;
                 }else {
