@@ -1,6 +1,5 @@
 package com.mars.leetCode.editor.cn;
 
-import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -8,7 +7,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class TwoSumTest {
 
-    @Test
     public void main() {
         AtomicInteger integer = new AtomicInteger();
 
